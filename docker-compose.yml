@@ -1,0 +1,52 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: ${LOCAL_USER_NAME}
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: vit
+    container_name: vit
+    restart: unless-stopped
+    working_dir: /var/www/
+    environment:
+      DRUSH_OPTIONS_URI: http://localhost:8000
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/php:/usr/local/etc/php
+    networks:
+      - vit
+
+  db:
+    image: arm64v8/mariadb
+    container_name: vit-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: drupal9
+      MYSQL_ROOT_PASSWORD: drupal9
+      MYSQL_PASSWORD: drupal9
+      MYSQL_USER: drupal9
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - vit
+
+  nginx:
+    image: arm64v8/nginx
+    container_name: vit-nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+    networks:
+      - vit
+
+networks:
+  vit:
+    driver: bridge
