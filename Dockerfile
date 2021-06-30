@@ -14,7 +14,7 @@ RUN chmod +x /usr/local/bin/install-php-extensions && sync
 ADD https://github.com/drush-ops/drush-launcher/releases/latest/download/drush.phar /usr/local/bin/drush
 
 # Give permissions on installed Docker Installer
-RUN chmod +x /usr/local/bin/drush && sync
+RUN chmod 777 /usr/local/bin/drush && sync
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
