@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
     working_dir: /var/www/
     environment:
-      DRUSH_OPTIONS_URI: http://localhost:8000
+      DRUSH_OPTIONS_URI: ${DRUSH_OPTIONS_URI}
     volumes:
       - ${DRUPAL_PATH}:/var/www
       - ./docker-compose/php:/usr/local/etc/php

@@ -5,3 +5,4 @@ DB_NAME=
 DB_PASS=
 DB_USER=
 DRUPAL_PATH=./
+DRUSH_OPTIONS_URI=http://localhost:8000
